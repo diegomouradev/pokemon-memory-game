@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
 .card {
-  width: 200px;
-  height: 300px;
+  width: 150px;
+  height: 200px;
   perspective: 1500px;
   position: relative;
 }
@@ -35,7 +35,7 @@
   background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
 
   font-family: "Press Start 2P", cursive;
-  font-size: large;
+  font-size: 18px;
 }
 
 .poke-card--back {
