@@ -1,26 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import "./PokemonCard.css";
 
 const PokemonCard = (props) => {
-  const { card, setCardsSelected, cardsSelected } = props;
-  const [showCard, setShowCard] = useState(Array(20).fill(false));
-
-  const handleClick = (index, pokemon) => {
-    showCard[index] = !showCard[index];
-    let newCardsSelected = [...cardsSelected, pokemon.name];
-    setCardsSelected(newCardsSelected);
-    setShowCard([...showCard]);
-  };
+  const { pokeData, handleClick } = props;
 
   return (
     <>
-      {props.pokeData.map((pokemon, index) => {
+      {pokeData.map((pokemon, index) => {
         return (
           <div
             key={index}
-            id={`card-${card}-poke${index}`}
+            id={pokemon.id}
             className={
-              "card " + (showCard[index] ? "poke-card-show" : "poke-card-hide")
+              "card " +
+              (pokemon.isFlipped ? "poke-card-show" : "poke-card-hide")
             }
             onClick={() => handleClick(index, pokemon)}
           >
@@ -29,13 +22,8 @@ const PokemonCard = (props) => {
             </div>
 
             <div className="poke-card poke-card--back">
-              <h1>{pokemon.name}</h1>
-              <img
-                alt={pokemon.name}
-                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-                  index + 1
-                }.png`}
-              />
+              <h1>{pokemon.pokemon}</h1>
+              <img alt={pokemon.pokemon} src={pokemon.img} />
             </div>
           </div>
         );
