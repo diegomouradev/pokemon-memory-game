@@ -17,13 +17,11 @@ const PokemonCard = (props) => {
             }
             onClick={() => handleClick(index, pokemon)}
           >
-            <div className="poke-card poke-card--front">
-              <div>Pokemon</div>
-            </div>
+            <div className="poke-card poke-card--front">&nbsp;</div>
 
             <div className="poke-card poke-card--back">
-              <h1>{pokemon.pokemon}</h1>
-              <img alt={pokemon.pokemon} src={pokemon.img} />
+              <h1>{pokemon.name}</h1>
+              <img className="poke-img" alt={pokemon.name} src={pokemon.img} />
             </div>
           </div>
         );
