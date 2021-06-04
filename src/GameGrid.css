@@ -1,13 +1,13 @@
 .game-grid {
   /* width: 100%; */
   display: grid;
-  grid-template-columns: repeat(5, min-content);
+  grid-template-columns: repeat(8, 1fr);
   grid-template-rows: auto;
   grid-gap: 15px;
   margin: 0 auto;
 }
 .game-score {
-  margin: 30px 0px;
+  margin: 15px 0px;
 }
 
 .game-score > span {

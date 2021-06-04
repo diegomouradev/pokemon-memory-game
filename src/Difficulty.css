@@ -1,0 +1,25 @@
+.difficulty__wrapper {
+  display: flex;
+}
+
+.difficulty__selector {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 0 1em 0 0;
+  margin: 0;
+  width: 100%;
+  font-family: "Press Start 2P", cursive;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+
+  outline: none;
+
+  text-align: center;
+  color: #252525;
+}
+
+.difficulty__blurb {
+  display: none;
+}

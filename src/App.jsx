@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import GameGrid from "./GameGrid";
+import Difficulty from "./Difficulty";
 
 export default function App() {
   const [pokeData, setPokeData] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [difficulty, setDifficulty] = useState(null);
 
   useEffect(() => {
-    if (!isLoaded) {
-      fetch("https://pokeapi.co/api/v2/pokemon?limit=10")
+    if (!isLoaded && difficulty) {
+      const limit =
+        difficulty === "easy"
+          ? 8
+          : difficulty === "medium"
+          ? 16
+          : difficulty === "hard"
+          ? 20
+          : null;
+      fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`)
         .then((data) => data.json())
         .then((data) => {
           const newData = data.results.map((pokemon, index) => {
@@ -25,9 +35,9 @@ export default function App() {
           setIsLoaded(true);
         });
     }
-  }, []);
+  }, [difficulty]);
 
-  if (!isLoaded) {
+  if (difficulty && !isLoaded) {
     return <div>Loading...</div>;
   }
   return (
@@ -35,7 +45,11 @@ export default function App() {
       <header>
         <h1 className="heading-primary">Pokemon Memory Game</h1>
       </header>
-      <GameGrid pokeData={pokeData} />
+      {!difficulty ? (
+        <Difficulty setDifficulty={setDifficulty} />
+      ) : (
+        <GameGrid pokeData={pokeData} />
+      )}
       <footer>
         <p className="footer-disclaimer">
           Created in <a href="https://reactjs.org/">ReatcJS</a> using the{" "}
