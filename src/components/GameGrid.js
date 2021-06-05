@@ -2,33 +2,10 @@ import React, { useEffect, useReducer, useState } from "react";
 import PokemonCard from "./PokemonCard";
 import "./GameGrid.css";
 
-const duplicatePokemons = (pokeData) => {
-  let newGameData = [];
-  for (let [index, pokemon] of pokeData.entries()) {
-    let pokemonTwo = {
-      name: pokemon.name,
-      id: `card2-${index}`,
-      img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-        index + 1
-      }.png`,
-      isFlipped: false,
-    };
-    newGameData.push(pokemon, pokemonTwo);
-  }
-  return newGameData;
-};
-
-const shufflePokemosArray = (gameData) => {
-  const length = gameData.length;
-  for (let i = length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * i);
-
-    let temp = gameData[i];
-    gameData[i] = gameData[j];
-    gameData[j] = temp;
-  }
-  return gameData;
-};
+import {
+  duplicatePokemons,
+  shufflePokemosArray,
+} from "../utils/generateGameData";
 
 const initialState = { startTime: new Date() };
 
@@ -50,22 +27,27 @@ const calculateScore = (state) => {
   return score;
 };
 
-export default function GameGrid(props) {
-  const pokeData = props.pokeData;
+const Score = ({ score }) => {
+  return (
+    <span className="game-score-counter">
+      {score.hours} : {score.minutes} : {score.seconds}
+    </span>
+  );
+};
+
+export default function GameGrid({ pokeData }) {
   const [gameData, setGameData] = useState([]);
   const [cardsFlipped, setCardsFlipped] = useState([]);
   const [count, setCount] = useState(null);
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [score, setScore] = useState({ hours: 0, minutes: 0, seconds: 0 });
+  const [score, setScore] = useState(null);
 
   // useEffect to run on initialization.
   useEffect(() => {
     // Duplicate each pokemon on the pokemon data array.
     const gameData = duplicatePokemons(pokeData);
-
     // Shuffle the pokemon data array.
     const gameDataRandom = shufflePokemosArray(gameData);
-
     // Set the shuffled array as the state of gameData.
     setGameData(gameDataRandom);
 
@@ -138,12 +120,13 @@ export default function GameGrid(props) {
   }, [state]);
 
   return (
-    <div>
+    <div className="game">
       <div className="game-score">
-        <span className="game-score-counter">
-          {score.hours} : {score.minutes} : {score.seconds}
-        </span>{" "}
-        <br />
+        {score ? (
+          <Score score={score} />
+        ) : (
+          <div className="game-score-value"></div>
+        )}
         <span>
           Pokemons left to find{" "}
           <span className="game-score-counter">{count}</span>
