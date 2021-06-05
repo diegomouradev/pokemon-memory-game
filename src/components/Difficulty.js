@@ -9,14 +9,18 @@ const Difficulty = ({ setDifficulty }) => {
   };
 
   useEffect(() => {
-    if (
-      difficultyLevel === "easy" ||
-      difficultyLevel === "medium" ||
-      difficultyLevel === "hard"
-    ) {
-      setDifficulty(difficultyLevel);
+    switch (difficultyLevel) {
+      case "easy":
+        return setDifficulty(10);
+      case "medium":
+        return setDifficulty(20);
+      case "hard":
+        return setDifficulty(30);
+      default:
+        return setDifficulty(null);
     }
   }, [difficultyLevel]);
+
   return (
     <div className="difficulty__wrapper">
       <label className="difficulty__blurb" for="difficulty-options">

@@ -1,9 +1,7 @@
 import React from "react";
 import "./PokemonCard.css";
 
-const PokemonCard = (props) => {
-  const { pokeData, handleClick } = props;
-
+const PokemonCard = ({ pokeData, handleClick }) => {
   return (
     <>
       {pokeData.map((pokemon, index) => {
@@ -15,7 +13,9 @@ const PokemonCard = (props) => {
               "card " +
               (pokemon.isFlipped ? "poke-card-show" : "poke-card-hide")
             }
-            onClick={() => handleClick(index, pokemon)}
+            onClick={() => {
+              handleClick(index, pokemon);
+            }}
           >
             <div className="poke-card poke-card--front">&nbsp;</div>
 

@@ -1,5 +1,8 @@
 .difficulty__wrapper {
+  height: 88vh;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .difficulty__selector {
@@ -8,7 +11,7 @@
   border: none;
   padding: 0 1em 0 0;
   margin: 0;
-  width: 100%;
+  width: min-content;
   font-family: "Press Start 2P", cursive;
   font-size: inherit;
   cursor: inherit;

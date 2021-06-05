@@ -1,57 +1,37 @@
 import React, { useEffect, useReducer, useState } from "react";
 import PokemonCard from "./PokemonCard";
-import "./GameGrid.css";
+import "./Game.css";
+import Score from "../components/Score";
 
 import {
   duplicatePokemons,
   shufflePokemosArray,
 } from "../utils/generateGameData";
 
-const initialState = { startTime: new Date() };
+const gameStartTime = { startTime: new Date() };
+const initialMoveCount = { moveCount: 0 };
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "counter is equal to 0":
-      return { ...state, finalTime: new Date() };
+    case "increment":
+      return { moveCount: state.moveCount + 1 };
     default:
-      return { ...state };
+      return state;
   }
 };
 
-const calculateScore = (state) => {
-  const score = {
-    hours: state.finalTime.getHours() - state.startTime.getHours(),
-    minutes: state.finalTime.getMinutes() - state.startTime.getMinutes(),
-    seconds: state.finalTime.getSeconds() - state.startTime.getSeconds(),
-  };
-  return score;
-};
-
-const Score = ({ score }) => {
-  return (
-    <span className="game-score-counter">
-      {score.hours} : {score.minutes} : {score.seconds}
-    </span>
-  );
-};
-
-export default function GameGrid({ pokeData }) {
+export default function Game({ pokeData }) {
   const [gameData, setGameData] = useState([]);
   const [cardsFlipped, setCardsFlipped] = useState([]);
   const [count, setCount] = useState(null);
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const [score, setScore] = useState(null);
+  const [gameTime, setGameTime] = useState(gameStartTime);
+  const [state, dispatch] = useReducer(reducer, initialMoveCount);
 
   // useEffect to run on initialization.
   useEffect(() => {
-    // Duplicate each pokemon on the pokemon data array.
     const gameData = duplicatePokemons(pokeData);
-    // Shuffle the pokemon data array.
     const gameDataRandom = shufflePokemosArray(gameData);
-    // Set the shuffled array as the state of gameData.
     setGameData(gameDataRandom);
-
-    // Set the counter to reflect the number of pairs to be found.
     setCount(gameData.length / 2);
   }, []);
 
@@ -68,6 +48,7 @@ export default function GameGrid({ pokeData }) {
       }, 1000);
     } else if (cardsFlipped.length === 2) {
       setTimeout(() => {
+        dispatch({ type: "increment" });
         alert(`Try again!`);
         resetIsFlipped();
       }, 1000);
@@ -79,7 +60,6 @@ export default function GameGrid({ pokeData }) {
     if (cardsFlipped[0] && cardsFlipped[0].id === pokemon.id) {
       return alert("This card is already selected!");
     }
-
     // Change game data to reflect the flipped card and update the gameData state.
     const newGameData = [...gameData];
     newGameData[index].isFlipped = !newGameData[index].isFlipped;
@@ -109,29 +89,22 @@ export default function GameGrid({ pokeData }) {
   // Watch for changes on the counter and set the finalTime when it reaches 0
   useEffect(() => {
     if (count === 0) {
-      dispatch({ type: "counter is equal to 0" });
+      let totalGameTime = { ...gameTime, finalTime: new Date() };
+      setGameTime(totalGameTime);
     }
   }, [count]);
 
-  useEffect(() => {
-    if (state.finalTime) {
-      setScore(calculateScore(state));
-    }
-  }, [state]);
-
   return (
     <div className="game">
-      <div className="game-score">
-        {score ? (
-          <Score score={score} />
-        ) : (
-          <div className="game-score-value"></div>
-        )}
-        <span>
-          Pokemons left to find{" "}
-          <span className="game-score-counter">{count}</span>
-        </span>
-      </div>
+      {gameTime.finalTime ? (
+        <Score
+          gameTime={gameTime}
+          moveCount={state.moveCount}
+          pairsLeftToFind={count}
+        />
+      ) : (
+        <Score moveCount={state.moveCount} pairsLeftToFind={count} />
+      )}
       <div className="game-grid">
         <PokemonCard pokeData={gameData} handleClick={handleClick} />
       </div>

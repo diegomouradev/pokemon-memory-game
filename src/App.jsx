@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
-import GameGrid from "./components/GameGrid";
 import Difficulty from "./components/Difficulty";
+import Game from "./components/Game";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 
@@ -13,22 +13,7 @@ export default function App() {
 
   useEffect(() => {
     if (!isLoaded && difficulty) {
-      let limit;
-      switch (difficulty) {
-        case "easy":
-          limit = 8;
-          break;
-        case "medium":
-          limit = 16;
-          break;
-        case "hard":
-          limit = 20;
-          break;
-        default:
-          return null;
-      }
-
-      fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`)
+      fetch(`https://pokeapi.co/api/v2/pokemon?limit=${difficulty}`)
         .then((data) => data.json())
         .then((data) => {
           const newData = data.results.map((pokemon, index) => {
@@ -45,11 +30,12 @@ export default function App() {
           setIsLoaded(true);
         });
     }
-  }, [difficulty]);
+  }, [difficulty, isLoaded]);
 
   if (difficulty && !isLoaded) {
     return <div>Loading...</div>;
   }
+
   return (
     <div className="main">
       <Header />
@@ -57,7 +43,7 @@ export default function App() {
       {!difficulty ? (
         <Difficulty setDifficulty={setDifficulty} />
       ) : (
-        <GameGrid pokeData={pokeData} />
+        <Game pokeData={pokeData} />
       )}
 
       <Footer />
