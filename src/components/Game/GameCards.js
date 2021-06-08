@@ -1,5 +1,5 @@
 import React from "react";
-import "./PokemonCard.css";
+import "./Styles/GameCards.css";
 
 const PokemonCard = ({ pokeData, handleClick }) => {
   return (
@@ -20,7 +20,7 @@ const PokemonCard = ({ pokeData, handleClick }) => {
             <div className="poke-card poke-card--front">&nbsp;</div>
 
             <div className="poke-card poke-card--back">
-              <h1>{pokemon.name}</h1>
+              {/* <h1>{pokemon.name}</h1> */}
               <img className="poke-img" alt={pokemon.name} src={pokemon.img} />
             </div>
           </div>

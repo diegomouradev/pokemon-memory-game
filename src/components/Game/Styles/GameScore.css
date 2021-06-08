@@ -1,9 +1,11 @@
 .game-score {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   margin: 30px 0px;
 }
 .score-data {
   font-family: "Press Start 2P", cursive;
   font-size: 18px;
+  color: wheat;
+  text-shadow: 1px 1px 2px black;
 }

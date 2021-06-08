@@ -4,9 +4,7 @@ const duplicatePokemons = (pokeData) => {
     let pokemonTwo = {
       name: pokemon.name,
       id: `card2-${index}`,
-      img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-        index + 1
-      }.png`,
+      img: pokemon.img,
       isFlipped: false,
     };
     newGameData.push(pokemon, pokemonTwo);
