@@ -90,7 +90,7 @@ const Settings = ({ setSettings }) => {
             <img
               className="poke-gen"
               src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/152.svg"
-              alt="bulbasaur"
+              alt="chicorita"
             />
             <input
               type="radio"
@@ -107,7 +107,7 @@ const Settings = ({ setSettings }) => {
             <img
               className="poke-gen"
               src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/252.svg"
-              alt="bulbasaur"
+              alt="pokemon"
             />
             <input
               type="radio"

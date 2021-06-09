@@ -14,9 +14,9 @@ export default function App() {
 
   useEffect(() => {
     if (!isLoaded && userSettings) {
-      // const gameData = fetchGameData(userSettings[0].difficultyLevel);
       fetch(
         `https://pokeapi.co/api/v2/pokemon?limit=${userSettings[0].gameLevel}&offset=${userSettings[0].pokemonGeneration}`
+        // `https://pokeapi.co/api/v2/pokemon?limit=2`
       )
         .then((data) => data.json())
         .then((data) => {
@@ -58,7 +58,11 @@ export default function App() {
           >
             Reset Game
           </button>
-          <Game initialGameData={initialGameData} />
+          <Game
+            initialGameData={initialGameData}
+            userSettings={userSettings}
+            setSettings={setSettings}
+          />
         </>
       )}
 

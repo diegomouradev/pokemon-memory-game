@@ -8,7 +8,7 @@ import {
   shufflePokemosArray,
 } from "../../adapters/Game/gameDataUtils";
 
-const gameStartTime = { startTime: new Date(), finalTime: null };
+const gameStartTime = { startTime: new Date() };
 const initialMoveCount = { moveCount: 0 };
 
 const reducer = (state, action) => {
@@ -19,11 +19,6 @@ const reducer = (state, action) => {
       return state;
   }
 };
-
-// const markAsFlipped = (card, cardsFlipped) => {
-//   const newCardsFlipped = [...cardsFlipped, card];
-//   setCardsFlipped(newCardsFlipped);
-// };
 
 const resetIsFlipped = (gameData, cardsFlipped) => {
   const newGameData = [...gameData];
@@ -38,7 +33,7 @@ const resetIsFlipped = (gameData, cardsFlipped) => {
 };
 
 export default function Game(props) {
-  let { initialGameData } = props;
+  let { initialGameData, userSettings, setSettings } = props;
   initialGameData = duplicatePokemons(initialGameData);
   initialGameData = shufflePokemosArray(initialGameData);
   const [gameData, setGameData] = useState(initialGameData);
@@ -98,12 +93,16 @@ export default function Game(props) {
           gameTime={gameTime}
           moveCount={state.moveCount}
           cardsLeftToFind={cardsLeftToFind}
+          settings={userSettings}
+          setSettings={setSettings}
         />
       ) : (
         <Score
           moveCount={state.moveCount}
           cardsLeftToFind={cardsLeftToFind}
           gameTime={gameTime}
+          settings={userSettings}
+          setSettings={setSettings}
         />
       )}
       <div className="game-grid">

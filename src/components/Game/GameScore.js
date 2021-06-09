@@ -1,48 +1,47 @@
 import React, { useEffect, useState } from "react";
 import "./Styles/GameScore.css";
-
+import getAndSetUserInfo from "../../adapters/User/userData";
 const calculateDifference = (gameTime) => {
   const difference =
     gameTime.finalTime.getTime() - gameTime.startTime.getTime();
-  const hours = Math.floor(difference / 1000 / 60 / 60) * 60 * 60;
-  const minutes = Math.floor(difference / 1000 / 60) * 60;
-  const seconds = Math.floor(difference / 1000);
-  const totalTime = { hours, minutes, seconds };
-  return totalTime;
+  const elapsedTimeInSeconds = Math.floor(difference / 1000);
+  return elapsedTimeInSeconds;
 };
 
-const formatStartTime = (gameTime) => {
-  const hours = gameTime.startTime.getHours();
-  const minutes = gameTime.startTime.getMinutes();
-  const seconds = gameTime.startTime.getSeconds();
-  return `${hours}:${minutes}:${seconds}`;
-};
-
-export default function Score({ gameTime, moveCount = 0, cardsLeftToFind }) {
+export default function Score(props) {
+  const { gameTime, moveCount, cardsLeftToFind, setSettings, settings } = props;
   const [finalScore, setFinalScore] = useState(null);
 
   useEffect(() => {
-    if (gameTime.finalTime !== null) {
+    if (gameTime.finalTime) {
       const totalTime = calculateDifference(gameTime);
-      console.log(totalTime);
-      const finalScore = totalTime / moveCount;
+      const finalScore =
+        settings[0].gameLevel * 100 - moveCount * 5 - totalTime;
       setFinalScore(finalScore);
     }
-  }, [gameTime.finalTime]);
+  }, [gameTime.finalTime, finalScore]);
+
+  useEffect(() => {
+    if (finalScore) {
+      let finalSettings = settings;
+      finalSettings[0]["highScore"] = finalScore;
+      setSettings(finalSettings);
+
+      getAndSetUserInfo("user", finalSettings);
+    }
+  }, [finalScore]);
 
   return (
     <div className="game-score">
       <div>
         <span className="score-data">Attempts: {moveCount}</span>
       </div>
-      {/* <div>
-        <span className="score-data">
-          Start time: {formatStartTime(gameTime)}
-        </span>
-      </div> */}
+      {settings[0].highScore && (
+        <div className="score-data">High Score: {settings[0].highScore}</div>
+      )}
       {finalScore && (
         <div>
-          <span className="score-data">Final score: {finalScore}</span>
+          <span className="score-data">Current Score: {finalScore}</span>
         </div>
       )}
       <div>
